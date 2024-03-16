@@ -5,7 +5,7 @@ st.set_page_config(layout="wide")
 st.image("./fantazip_logo.png")
 
 st.markdown("## 나의 판타집이 알려줄게! ➡︎ 서울에서 살기 좋은 동네🏡")
-st.markdown("#### 데이터로 알아보는 2030 사회초년생 1인가구가 살기 좋은 동네 찾기")
+st.markdown("#### 데이터 기반 2030 사회초년생 1인가구가 살기 좋은 동네 찾기")
 st.divider()
 
 st.subheader("❓WHAT IS '나의 판타집'?")

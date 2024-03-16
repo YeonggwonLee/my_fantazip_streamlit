@@ -189,9 +189,9 @@ def generate_prompt(items):
   자기소개
   추천결과(점수,가중치)
   동네 정보 및 특징
-  편의성 정보 검색(대형마트,백화점,쇼핑몰 정보등)
-  문화여가성 정보 검색(카페정보,영화관 정보 무조건 언급)
-  교통성 정보 검색(지하철,광역버스 정보)
+  편의성 정보 검색(대형마트,백화점,쇼핑몰 정보등 구체적으로 작성)
+  문화여가성 정보 검색(카페정보,영화관 정보 무조건 언급 구체적으로 작성)
+  교통성 정보 검색(지하철,광역버스 정보 구체적으로 작성)
   생활 치안 정보 검색
   끝 인사
   ---
@@ -246,7 +246,7 @@ item_to_column = {
     '범죄율': 'crime_score'
 }
 # 초기 가중치 설정
-initial_weights = {'교통성': 25, '문화여가성': 25, '편의성': 25, '생활 치안': 25}
+initial_weights = {'편의성': 25, '문화여가성': 25, '교통성': 25, '생활 치안': 25}
 
 # Streamlit UI 구성
 
@@ -255,7 +255,9 @@ with col2:
     st.image("./images/image_logo.png")
 with col1:
     st.title('🛠️사용자 조절 도구')
-selected_region = st.selectbox('원하시는 권역을 선택하세요:', list(seoul_region.keys()))
+st.write("💡2030 사회초년생들에게 중요하다고 생각되는 데이터를 모아 4가지 카테고리별로 분류하였고 점수화하여'**판타집 지수**'를 만들었습니다.")
+st.write ("👉**본인의 선호도에 맞춰서 지수와 세부 항목의 가중치를 조절하세요.** (각 카테고리별 세부항목은 '***세부 항목 가중치 조정***'란에서 확인 하실 수 있습니다.)")
+selected_region = st.selectbox('원하시는 생활권을 선택하세요:', list(seoul_region.keys()))
 
 # 각 지표별로 세부 항목 선택 및 가중치 조정
 col3, col4 = st.columns([1, 1])
@@ -263,7 +265,7 @@ col3, col4 = st.columns([1, 1])
 
 with col3:
     # 지표별 가중치 조정
-    st.subheader("지표별 가중치 조정")
+    st.subheader("지수별 가중치 조정")
     for category in initial_weights.keys():
         initial_weights[category] = st.slider(f"{category} 가중치:", 0, 100, initial_weights[category], 5, key=f"{category}_weight")
 with col4:
@@ -322,9 +324,9 @@ if 'recommendation_text' not in st.session_state:
 
 # 폼 제출 버튼
 with st.form("form"):
-    st.subheader("추천 받고싶은 동네를 선택하세요.")
+    st.subheader("추천 동네 보기")
     selected_town = st.selectbox(
-    '사용자 선호도를 바탕으로 종합점수 TOP_5동네를 선정하였습니다.(기본값: 가장 높은 종합점수):', items.index)
+    '사용자 선호도를 바탕으로 종합점수 TOP_5동네를 선정하였습니다. 추천 받기를 누르세요(기본값: 가장 높은 종합점수):', items.index)
 
     submitted = st.form_submit_button("추천받기")
     if submitted:
