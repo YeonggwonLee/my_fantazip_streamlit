@@ -3,9 +3,11 @@ import pandas as pd
 from PIL import Image
 
 st.set_page_config(layout="wide")
-
-st.image("./fantazip_logo.png")
-st.title("🏠 안전한 동네 찾기 🏠 ")
+col1, col2 = st.columns([3, 1])
+with col1:
+    st.title("🏠 안전한 동네 찾기 🏠 ")
+with col2:
+    st.image("./images/image_logo.png")
 st.warning("해당 데이터는 서울 법정동을 기준으로 하고 있습니다.")
 st.write(" ")
 st.write(" ")
