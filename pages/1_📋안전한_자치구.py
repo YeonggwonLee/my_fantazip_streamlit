@@ -6,11 +6,14 @@ st.set_page_config(
     # initial_sidebar_state="collapsed"
 )
 
-st.image("./data/fantazip_logo.png")
-
 
 # 제목 설정
-st.title("🏠 안전한 자치구 찾기 🏠")
+col1, col2 = st.columns([3, 1])
+with col1:
+    st.title("🏠 안전한 자치구 찾기 🏠")
+with col2:
+    st.image("./images/image_logo.png")
+
 st.warning(
     "해당 프로젝트는 서울을 기준으로 하고 있습니다."
 )

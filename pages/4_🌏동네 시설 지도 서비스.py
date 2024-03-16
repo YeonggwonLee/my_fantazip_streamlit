@@ -31,7 +31,7 @@ population_ratio = population_ratio.set_index(keys="법정구역")
 
 col4, col5,= st.columns([3, 1])
 with col4:
-    st.title('동네 기반 시설 지도 서비스')
+    st.title('🗺️동네 기반 시설 지도 서비스')
 with col5:
     st.image("./images/image_logo.png")
 st.write("👉**입력하신 동네에 대한 다양한 종합 정보를 확인할 수 있습니다.**")
@@ -50,8 +50,8 @@ with col2:
     show_walking_path = st.checkbox("산책로")
 with col3:
     show_option =  st.selectbox('히트맵 선택',["선택안함","2030 1인가구 비율","2030(여성)_1인가구_비율"
-                                                           ,"2030(남성)_1인가구_비율","전세가"])
-    selected_building_type = st.multiselect('건물용도별 전세가 동향:', df_combined['건물용도'].unique(), default=df_combined['건물용도'].unique()[0])
+                                                           ,"2030(남성)_1인가구_비율","평당 전세가(만원)"])
+    selected_building_type = st.multiselect('건물용도별 전세가 동향:', df_combined['건물용도'].unique())
 
 
 
@@ -116,74 +116,76 @@ def plot_trends(df_combined, selected_dong, building_type_list):
     plt.tight_layout()
     st.pyplot(plt)
 
-
-if selected_building_type: 
-    if town_name: 
-        plot_trends(df_combined, town_name, selected_building_type)
+if not town_name:
+    st.warning('원하시는 동을 입력하세요!!')
 else:
-    if show_subway:
-        add_markers(subway_stations, '지하철역', radius, 'blue')
-    if show_pharmacies:
-        add_markers(pharmacies, '약국', radius, 'green')
-    if show_bus_stops:
-        add_markers(bus_stops, '버스정류장', radius, 'red')
-    if show_market:
-        add_markers(market, '대형마트&슈퍼', radius, 'purple')
-    if show_park:
-        add_markers(park, '공원', radius, 'darkgreen')
-    if show_department_store:
-        add_markers(department_store, '백화점', radius, 'orange')
-    if show_shopping_mall:
-        add_markers(shopping_mall, '쇼핑몰', radius, 'pink')
-    if show_walking_path:
-        add_markers(walking_path, '산책로', radius, 'darkblue')
+    if selected_building_type: 
+        if town_name: 
+            plot_trends(df_combined, town_name, selected_building_type)
+    else:
+        if show_subway:
+            add_markers(subway_stations, '지하철역', radius, 'blue')
+        if show_pharmacies:
+            add_markers(pharmacies, '약국', radius, 'green')
+        if show_bus_stops:
+            add_markers(bus_stops, '버스정류장', radius, 'red')
+        if show_market:
+            add_markers(market, '대형마트&슈퍼', radius, 'purple')
+        if show_park:
+            add_markers(park, '공원', radius, 'darkgreen')
+        if show_department_store:
+            add_markers(department_store, '백화점', radius, 'orange')
+        if show_shopping_mall:
+            add_markers(shopping_mall, '쇼핑몰', radius, 'pink')
+        if show_walking_path:
+            add_markers(walking_path, '산책로', radius, 'darkblue')
 
-    if show_option == "전세가":
-        folium.Choropleth(
-            geo_data=geojson_data,
-            data=rent_df["평당평균보증금"],
-            columns=[rent_df.index, rent_df["평당평균보증금"]],
-            fill_color='YlOrRd',
-            fill_opacity=0.5,
-            line_opacity=0.3,
-            threshold_scale=[200, 600, 1000, 1500, 2000, 2500, 3000],
-            key_on='feature.properties.EMD_NM'
-        ).add_to(m)
+        if show_option == "평당 전세가(만원)":
+            folium.Choropleth(
+                geo_data=geojson_data,
+                data=rent_df["평당평균보증금"],
+                columns=[rent_df.index, rent_df["평당평균보증금"]],
+                fill_color='YlOrRd',
+                fill_opacity=0.5,
+                line_opacity=0.3,
+                threshold_scale=[200, 600, 1000, 1500, 2000, 2500, 3000],
+                key_on='feature.properties.EMD_NM'
+            ).add_to(m)
 
-    elif show_option == "2030 1인가구 비율":
-        data_column = "2030_1인가구_비율"
-        folium.Choropleth(
-            geo_data=geojson_data,
-            data=population_ratio[data_column],
-            columns=[population_ratio.index, population_ratio[data_column]],
-            fill_color='YlOrRd',
-            fill_opacity=0.5,
-            line_opacity=0.3,
-            key_on='feature.properties.EMD_NM'
-        ).add_to(m)
+        elif show_option == "2030 1인가구 비율":
+            data_column = "2030_1인가구_비율"
+            folium.Choropleth(
+                geo_data=geojson_data,
+                data=population_ratio[data_column],
+                columns=[population_ratio.index, population_ratio[data_column]],
+                fill_color='YlOrRd',
+                fill_opacity=0.5,
+                line_opacity=0.3,
+                key_on='feature.properties.EMD_NM'
+            ).add_to(m)
 
-    elif show_option == "2030(여성)_1인가구_비율":
-        data_column = "2030(여성)_1인가구_비율"
-        folium.Choropleth(
-            geo_data=geojson_data,
-            data=population_ratio[data_column],
-            columns=[population_ratio.index, population_ratio[data_column]],
-            fill_color='YlOrRd',
-            fill_opacity=0.5,
-            line_opacity=0.3,
-            key_on='feature.properties.EMD_NM'
-        ).add_to(m)
+        elif show_option == "2030(여성)_1인가구_비율":
+            data_column = "2030(여성)_1인가구_비율"
+            folium.Choropleth(
+                geo_data=geojson_data,
+                data=population_ratio[data_column],
+                columns=[population_ratio.index, population_ratio[data_column]],
+                fill_color='YlOrRd',
+                fill_opacity=0.5,
+                line_opacity=0.3,
+                key_on='feature.properties.EMD_NM'
+            ).add_to(m)
 
-    elif show_option == "2030(남성)_1인가구_비율":
-        data_column = "2030(남성)_1인가구_비율"
-        folium.Choropleth(
-            geo_data=geojson_data,
-            data=population_ratio[data_column],
-            columns=[population_ratio.index, population_ratio[data_column]],
-            fill_color='YlOrRd',
-            fill_opacity=0.5,
-            line_opacity=0.3,
-            key_on='feature.properties.EMD_NM'
-        ).add_to(m)
+        elif show_option == "2030(남성)_1인가구_비율":
+            data_column = "2030(남성)_1인가구_비율"
+            folium.Choropleth(
+                geo_data=geojson_data,
+                data=population_ratio[data_column],
+                columns=[population_ratio.index, population_ratio[data_column]],
+                fill_color='YlOrRd',
+                fill_opacity=0.5,
+                line_opacity=0.3,
+                key_on='feature.properties.EMD_NM'
+            ).add_to(m)
 
-    folium_static(m,width=800, height=550)
+        folium_static(m,width=800, height=550)
