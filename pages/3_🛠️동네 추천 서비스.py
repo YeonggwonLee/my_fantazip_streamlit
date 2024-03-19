@@ -358,9 +358,9 @@ with st.form("form"):
     st.subheader("추천 동네 보기")
     st.write('사용자 선호도를 바탕으로 종합점수 TOP_5동네를 선정하였습니다. 추천받기를 클릭하세요(기본값: 가장 높은 종합점수)')
     selected_town = st.selectbox(
-    '**⬇️만약 다른 동네에 대한 정보가 궁금하시면 아래에서 원하시는 동네를 선택하고 추천받기를 클릭하세요.**', items.index)
+    "**⬇️만약 다른 동네에 대한 정보가 궁금하시면 아래에서 원하시는 동네를 선택하고 '동네 보기'를 클릭하세요.**", items.index)
 
-    submitted = st.form_submit_button("추천받기")
+    submitted = st.form_submit_button("동네 보기")
     if submitted:
         col5, col6 = st.columns([1, 1])
         with col5:
