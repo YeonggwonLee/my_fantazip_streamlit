@@ -137,34 +137,34 @@ def haversine(lon1, lat1, lon2, lat2):
     return c * r
 
 def plot_rent_info(town_name, df):
-    font_path = os.path.join(os.getcwd(), "customFonts", "NanumGothic-Bold.ttf")
+    filtered_data = df[df['town_name'] == town_name]
     
-    # matplotlib의 폰트 관리자를 사용해 한글 폰트 설정
-    plt.rcParams['font.family'] = 'NanumGothic-Bold'
-    plt.rcParams['font.size'] = 12
-    plt.rcParams['font.sans-serif'] = [font_path]
+    # 데이터 준비
+    categories = filtered_data['건물용도'].values
+    values = filtered_data['평당평균보증금'].values
+    category_indices = np.arange(len(categories))
 
-
-    sns.set(style="whitegrid", palette="pastel")  # 스타일 설정
-    #plt.rcParams['font.family'] = 'Malgun Gothic'
-    
-    filtered_data = rent_price_df[rent_price_df['town_name'] == town_name]
     fig, ax = plt.subplots(figsize=(5, 4))
-    sns.barplot(data=filtered_data, x='건물용도', y='평당평균보증금', ax=ax, errorbar=None)
+    
+    # 바 차트 그리기
+    bars = ax.bar(category_indices, values, color='skyblue')
     ax.set_title(f'{town_name} 전세 정보', fontsize=18, fontweight='bold',fontproperties=prop)
     ax.set_ylabel('평당 평균 보증금 (단위: 만원)', fontsize=14,fontproperties=prop)
     ax.set_xlabel('건물용도', fontsize=14,fontproperties=prop)
-    plt.xticks(rotation=45)
+    ax.set_xticks(category_indices)
+    ax.set_xticklabels(categories, rotation=45,fontproperties=prop)
 
-    for p in ax.patches:
-        ax.annotate(f'{p.get_height():.0f}', 
-                    (p.get_x() + p.get_width() / 2., p.get_height()), 
-                    ha='center', va='center', 
-                    xytext=(0, 10),  # 텍스트 위치 조정
-                    textcoords='offset points',
-                    fontsize=12)
-    
-    return fig 
+    # 각 바에 값 표시
+    for bar in bars:
+        height = bar.get_height()
+        ax.annotate(f'{height:.0f}',
+                    xy=(bar.get_x() + bar.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom')
+
+    plt.tight_layout()
+    return fig
 
 def generate_prompt(items):
     item_text=""

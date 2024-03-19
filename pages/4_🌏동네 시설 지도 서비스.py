@@ -12,7 +12,8 @@ import os
 from matplotlib import font_manager as fm
 fpath = os.path.join(os.getcwd(),"customFonts/NanumGothic-Bold.ttf")
 prop = fm.FontProperties(fname=fpath)
-font_name = fm.FontProperties(fname=fpath).get_name()
+
+
 subway_stations = pd.read_csv('./data/metro_station_final.csv')
 pharmacies = pd.read_csv('./data/pharmacy.csv')
 bus_stops = pd.read_csv('./data/seoul_bus_stop.csv')
@@ -97,12 +98,6 @@ def add_markers(dataframe, category_name, radius, color):
             ).add_to(m)
             
 def plot_trends(df_combined, selected_dong, building_type_list):
-    font_path = os.path.join(os.getcwd(), "customFonts", "NanumGothic-Bold.ttf")
-    
-    # matplotlib의 폰트 관리자를 사용해 한글 폰트 설정
-    plt.rcParams['font.family'] = 'NanumGothic-Bold'
-    plt.rcParams['font.size'] = 12
-    plt.rcParams['font.sans-serif'] = [font_path]
 
     plt.figure(figsize=(12, 6))
     color_palette = sns.color_palette("hsv", len(building_type_list))
@@ -117,12 +112,12 @@ def plot_trends(df_combined, selected_dong, building_type_list):
                 plt.text(x, y, f'{y:.0f}', color=color_palette[i], ha='center', va='bottom',fontproperties=prop)
 
         average_data = filtered_data[filtered_data['건물용도'] == building_type].groupby('접수년도')['평당평균보증금(만원)'].mean().reset_index()
-        sns.lineplot(data=average_data, x='접수년도', y='평당평균보증금(만원)', label=f'서울시 평균 - {building_type}', linestyle='--', linewidth=2, color=color_palette[i],fontproperties=prop)
+        sns.lineplot(data=average_data, x='접수년도', y='평당평균보증금(만원)', label=f'서울시 평균 - {building_type}', linestyle='--', linewidth=2, color=color_palette[i])
 
     plt.title(f'{selected_dong} 연도별 평당평균보증금 변화',fontproperties=prop)
     plt.xlabel('접수년도',fontproperties=prop)
     plt.ylabel('평당평균보증금(만원)',fontproperties=prop)
-    plt.legend()
+    plt.legend(prop=prop)
     plt.tight_layout()
     st.pyplot(plt)
 
