@@ -1,5 +1,10 @@
-streamlit==1.24.0
-openai==0.27.8
-pinecone-client==2.2.2
-google-cloud-translate==3.11.2
-google-auth==2.17.3
+streamlit==1.26.0
+openai==1.11.1
+numpy
+matplotlib
+requests
+pandas
+folium
+streamlit-folium
+seaborn
+Pillow
