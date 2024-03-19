@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
@@ -16,7 +15,11 @@ from PIL import Image
 import json 
 
 Image.MAX_IMAGE_PIXELS = None 
-plt.rcParams['font.family'] = 'Malgun Gothic'
+#plt.rcParams['font.family'] = 'Malgun Gothic'
+import os
+from matplotlib import font_manager as fm
+fpath = os.path.join(os.getcwd(),"customFonts/NanumGothic-Bold.ttf")
+prop = fm.FontProperties(fname=fpath)
 openai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 metro = pd.read_csv("./data/metro_station_final.csv")
 df = pd.read_csv("./data/total_score_final.csv")
@@ -96,10 +99,10 @@ def draw_radar_chart(items, index=0):
     label_padding = 1.5 
     score_padding = 1.15  
     for angle, label in zip(angles[:-1], labels):
-        ax.text(angle, label_padding * max(scores), label, horizontalalignment='center', verticalalignment='center', fontsize=20, color='blue')
+        ax.text(angle, label_padding * max(scores), label, horizontalalignment='center', verticalalignment='center', fontsize=20, color='blue',fontproperties=prop)
     for angle, score in zip(angles[:-1], scores[:-1]):
-        ax.text(angle, score_padding * max(scores), str(score), horizontalalignment='center', verticalalignment='center', fontsize=18, color='black')
-    plt.text(0.5, 0.5, index_name, size=20, ha='center', va='center', transform=ax.transAxes)
+        ax.text(angle, score_padding * max(scores), str(score), horizontalalignment='center', verticalalignment='center', fontsize=18, color='black',fontproperties=prop)
+    plt.text(0.5, 0.5, index_name, size=20, ha='center', va='center', transform=ax.transAxes,fontproperties=prop)
     ax.set_aspect('equal')
     plt.show()
     return fig
@@ -138,9 +141,9 @@ def plot_rent_info(town_name, df):
     filtered_data = rent_price_df[rent_price_df['town_name'] == town_name]
     fig, ax = plt.subplots(figsize=(5, 4))
     sns.barplot(data=filtered_data, x='건물용도', y='평당평균보증금', ax=ax, errorbar=None)
-    ax.set_title(f'{town_name} 전세 정보', fontsize=18, fontweight='bold')
-    ax.set_ylabel('평당 평균 보증금 (단위: 만원)', fontsize=14)
-    ax.set_xlabel('건물용도', fontsize=14)
+    ax.set_title(f'{town_name} 전세 정보', fontsize=18, fontweight='bold',fontproperties=prop)
+    ax.set_ylabel('평당 평균 보증금 (단위: 만원)', fontsize=14,fontproperties=prop)
+    ax.set_xlabel('건물용도', fontsize=14,fontproperties=prop)
     plt.xticks(rotation=45)
 
     for p in ax.patches:
