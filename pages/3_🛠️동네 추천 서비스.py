@@ -13,11 +13,11 @@ from math import radians, cos, sin, asin, sqrt
 import seaborn as sns
 from PIL import Image
 import json 
-
-Image.MAX_IMAGE_PIXELS = None 
-#plt.rcParams['font.family'] = 'Malgun Gothic'
 import os
 from matplotlib import font_manager as fm
+Image.MAX_IMAGE_PIXELS = None 
+#plt.rcParams['font.family'] = 'Malgun Gothic'
+
 fpath = os.path.join(os.getcwd(),"customFonts/NanumGothic-Bold.ttf")
 prop = fm.FontProperties(fname=fpath)
 openai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
@@ -140,7 +140,7 @@ def plot_rent_info(town_name, df):
     
     filtered_data = rent_price_df[rent_price_df['town_name'] == town_name]
     fig, ax = plt.subplots(figsize=(5, 4))
-    sns.barplot(data=filtered_data, x='건물용도', y='평당평균보증금', ax=ax, errorbar=None)
+    sns.barplot(data=filtered_data, x='건물용도', y='평당평균보증금', ax=ax, errorbar=None,fontproperties=prop)
     ax.set_title(f'{town_name} 전세 정보', fontsize=18, fontweight='bold',fontproperties=prop)
     ax.set_ylabel('평당 평균 보증금 (단위: 만원)', fontsize=14,fontproperties=prop)
     ax.set_xlabel('건물용도', fontsize=14,fontproperties=prop)
