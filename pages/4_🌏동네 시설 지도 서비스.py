@@ -10,16 +10,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 from matplotlib import font_manager as fm
-font_path = os.path.join(os.getcwd(), "customFonts", "NanumGothic-Bold.ttf")
-
-# 한글 폰트 설정
-font_name = fm.FontProperties(fname=font_path).get_name()
-plt.rc('font', family=font_name)
-plt.rc('axes', unicode_minus=False)  # 마이너스 폰트 설정
-
-# Seaborn 스타일 설정
-sns.set(font=font_name))
-
+fpath = os.path.join(os.getcwd(),"customFonts/NanumGothic-Bold.ttf")
+prop = fm.FontProperties(fname=fpath)
+font_name = fm.FontProperties(fname=fpath).get_name()
 subway_stations = pd.read_csv('./data/metro_station_final.csv')
 pharmacies = pd.read_csv('./data/pharmacy.csv')
 bus_stops = pd.read_csv('./data/seoul_bus_stop.csv')
@@ -104,6 +97,7 @@ def add_markers(dataframe, category_name, radius, color):
             ).add_to(m)
             
 def plot_trends(df_combined, selected_dong, building_type_list):
+    sns.set(font=font_name)
     plt.figure(figsize=(12, 6))
     color_palette = sns.color_palette("hsv", len(building_type_list))
 
@@ -114,14 +108,14 @@ def plot_trends(df_combined, selected_dong, building_type_list):
         if not specific_data.empty:
             sns.lineplot(data=specific_data, x='접수년도', y='평당평균보증금(만원)', label=f'{selected_dong} - {building_type}', marker='o', linewidth=3, color=color_palette[i])
             for x, y in zip(specific_data['접수년도'], specific_data['평당평균보증금(만원)']):
-                plt.text(x, y, f'{y:.0f}', color=color_palette[i], ha='center', va='bottom')
+                plt.text(x, y, f'{y:.0f}', color=color_palette[i], ha='center', va='bottom',fontproperties=prop)
 
         average_data = filtered_data[filtered_data['건물용도'] == building_type].groupby('접수년도')['평당평균보증금(만원)'].mean().reset_index()
-        sns.lineplot(data=average_data, x='접수년도', y='평당평균보증금(만원)', label=f'서울시 평균 - {building_type}', linestyle='--', linewidth=2, color=color_palette[i])
+        sns.lineplot(data=average_data, x='접수년도', y='평당평균보증금(만원)', label=f'서울시 평균 - {building_type}', linestyle='--', linewidth=2, color=color_palette[i],fontproperties=prop)
 
-    plt.title(f'{selected_dong} 연도별 평당평균보증금 변화')
-    plt.xlabel('접수년도')
-    plt.ylabel('평당평균보증금(만원)')
+    plt.title(f'{selected_dong} 연도별 평당평균보증금 변화',fontproperties=prop)
+    plt.xlabel('접수년도',fontproperties=prop)
+    plt.ylabel('평당평균보증금(만원)',fontproperties=prop)
     plt.legend()
     plt.tight_layout()
     st.pyplot(plt)
