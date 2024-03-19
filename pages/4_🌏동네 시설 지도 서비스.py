@@ -97,7 +97,13 @@ def add_markers(dataframe, category_name, radius, color):
             ).add_to(m)
             
 def plot_trends(df_combined, selected_dong, building_type_list):
-    sns.set(font=font_name)
+    font_path = os.path.join(os.getcwd(), "customFonts", "NanumGothic-Bold.ttf")
+    
+    # matplotlib의 폰트 관리자를 사용해 한글 폰트 설정
+    plt.rcParams['font.family'] = 'NanumGothic-Bold'
+    plt.rcParams['font.size'] = 12
+    plt.rcParams['font.sans-serif'] = [font_path]
+
     plt.figure(figsize=(12, 6))
     color_palette = sns.color_palette("hsv", len(building_type_list))
 

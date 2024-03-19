@@ -137,7 +137,14 @@ def haversine(lon1, lat1, lon2, lat2):
     return c * r
 
 def plot_rent_info(town_name, df):
-    sns.set(font=font_name)
+    font_path = os.path.join(os.getcwd(), "customFonts", "NanumGothic-Bold.ttf")
+    
+    # matplotlib의 폰트 관리자를 사용해 한글 폰트 설정
+    plt.rcParams['font.family'] = 'NanumGothic-Bold'
+    plt.rcParams['font.size'] = 12
+    plt.rcParams['font.sans-serif'] = [font_path]
+
+
     sns.set(style="whitegrid", palette="pastel")  # 스타일 설정
     #plt.rcParams['font.family'] = 'Malgun Gothic'
     
