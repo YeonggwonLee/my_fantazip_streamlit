@@ -42,7 +42,7 @@ with col1:
     df = pd.DataFrame(data)
     st.dataframe(df)
     st.write(f"**< 데이터 분석 목적 >**")
-    st.info("✔️ 2030 사회초년생 여성을 위한 안전한 동네 추출하기")
+    st.info("✔️ 2030 사회초년생 여성 1인가구를 위한 안전한 동네 추출하기")
     with st.expander(label=f"**분석 목적 선정 배경**"): 
         st.image("./data/001.png")
         st.image("./data/002.png")
