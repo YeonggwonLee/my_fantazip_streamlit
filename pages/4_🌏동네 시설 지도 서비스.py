@@ -8,7 +8,10 @@ from math import radians, cos, sin, asin, sqrt
 import json
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+import os
+from matplotlib import font_manager as fm
+fpath = os.path.join(os.getcwd(),"customFonts/NanumGothic-Bold.ttf")
+prop = fm.FontProperties(fname=fpath)
 
 subway_stations = pd.read_csv('./data/metro_station_final.csv')
 pharmacies = pd.read_csv('./data/pharmacy.csv')
@@ -104,14 +107,14 @@ def plot_trends(df_combined, selected_dong, building_type_list):
         if not specific_data.empty:
             sns.lineplot(data=specific_data, x='접수년도', y='평당평균보증금(만원)', label=f'{selected_dong} - {building_type}', marker='o', linewidth=3, color=color_palette[i])
             for x, y in zip(specific_data['접수년도'], specific_data['평당평균보증금(만원)']):
-                plt.text(x, y, f'{y:.0f}', color=color_palette[i], ha='center', va='bottom')
+                plt.text(x, y, f'{y:.0f}', color=color_palette[i], ha='center', va='bottom',fontproperties=prop)
 
         average_data = filtered_data[filtered_data['건물용도'] == building_type].groupby('접수년도')['평당평균보증금(만원)'].mean().reset_index()
-        sns.lineplot(data=average_data, x='접수년도', y='평당평균보증금(만원)', label=f'서울시 평균 - {building_type}', linestyle='--', linewidth=2, color=color_palette[i])
+        sns.lineplot(data=average_data, x='접수년도', y='평당평균보증금(만원)', label=f'서울시 평균 - {building_type}', linestyle='--', linewidth=2, color=color_palette[i],fontproperties=prop)
 
-    plt.title(f'{selected_dong} 연도별 평당평균보증금 변화')
-    plt.xlabel('접수년도')
-    plt.ylabel('평당평균보증금(만원)')
+    plt.title(f'{selected_dong} 연도별 평당평균보증금 변화',fontproperties=propgit)
+    plt.xlabel('접수년도',fontproperties=prop)
+    plt.ylabel('평당평균보증금(만원)',fontproperties=prop)
     plt.legend()
     plt.tight_layout()
     st.pyplot(plt)
