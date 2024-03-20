@@ -12,8 +12,8 @@ col1, col2 = st.columns([3, 1])
 with col1:
     st.title("🏠 안전한 자치구 찾기 🏠")
 with col2:
-    # st.image("./images/image_logo.png")
-    st.image("./data/fantazip_logo.png")
+    st.image("./images/image_logo.png")
+    # st.image("./data/fantazip_logo.png")
 
 
 # 분석 배경
